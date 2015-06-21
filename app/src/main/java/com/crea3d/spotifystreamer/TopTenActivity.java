@@ -1,5 +1,6 @@
 package com.crea3d.spotifystreamer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
@@ -45,7 +46,7 @@ public class TopTenActivity extends ActionBarActivity {
     private SpotifyApi spotifyApi;
     private SpotifyService spotify;
 
-    private ArrayList<ParcelableTrack> tracks = new ArrayList<>();
+    private ArrayList<ParcelableTrack> tracks = null;
     private TrackAdapter adapter;
 
     private ParcelableArtist artist;
@@ -57,6 +58,7 @@ public class TopTenActivity extends ActionBarActivity {
 
         // get albumName id from intent, finish the activity if the id is missing
 
+        Intent intent = getIntent();
         artist = getIntent().getParcelableExtra(EXTRA_ARTIST);
 
         if (artist == null) {
@@ -114,7 +116,7 @@ public class TopTenActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             hideLoader();
-                            TopTenActivity.this.tracks = new ArrayList<ParcelableTrack>();
+                            TopTenActivity.this.tracks = new ArrayList<>();
                             for (Track track : tracks.tracks) {
                                 TopTenActivity.this.tracks.add(new ParcelableTrack(track));
                             }
@@ -205,7 +207,7 @@ public class TopTenActivity extends ActionBarActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
 
             //set viewHolder
 
